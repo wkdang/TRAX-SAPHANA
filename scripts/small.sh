@@ -34,7 +34,7 @@ if [ "$7" == "RHEL" ]; then
 	#sed -i 's/\(SELINUX=enforcing\|SELINUX=permissive\)/SELINUX=disabled/g' \ > /etc/selinux/config
 	echo "start SELINUX" >> /tmp/parameter.txt
 	sed -i -e "s/\(SELINUX=enforcing\|SELINUX=permissive\)/SELINUX=disabled/g" /etc/selinux/config
-echo "end SELINUX" >> /tmp/parameter.txt
+    echo "end SELINUX" >> /tmp/parameter.txt
 	echo "kernel.numa_balancing = 0" > /etc/sysctl.d/sap_hana.conf
 	ln -s /usr/lib64/libssl.so.1.0.1e /usr/lib64/libssl.so.1.0.1
 	ln -s /usr/lib64/libcrypto.so.0.9.8e /usr/lib64/libcrypto.so.0.9.8
@@ -159,91 +159,92 @@ echo "/dev/mapper/usrsapvg-usrsaplv /usr/sap xfs defaults 0 0" >> /etc/fstab
 echo "//saphanakit.file.core.windows.net/sapinstall/HANA1SP12/SAP_HANA_1.0_DSP_122.13 /hana/data/sapbitslocal/ cifs vers=3.0,dir_mode=0777,file_mode=0777,username=saphanakit,password=UVLxDAZmw937RVDNQBF+OetwlLYwitsbQPHH2tnEiTut/y+hRgx0YkBzUtEGI99mhDsT/KxgSxJ/h6HUu6JHoQ==">> /etc/fstab
 echo "write to fstab end" >> /tmp/parameter.txt
 
-if [ ! -d "/hana/data/sapbits" ]; then
-  mkdir -p "/hana/data/sapbits"
-fi
+#if [ ! -d "/hana/data/sapbits" ]; then
+#  mkdir -p "/hana/data/sapbits"
+#fi
 
-if [ "$6" == "2.0" ]; then
-  cd /hana/data/sapbits
-  echo "hana 2.0 download start" >> /tmp/parameter.txt
-  /usr/bin/wget --quiet $Uri/SapBits/md5sums
-  /usr/bin/wget --quiet $Uri/SapBits/51052325_part1.exe
-  /usr/bin/wget --quiet $Uri/SapBits/51052325_part2.rar
-  /usr/bin/wget --quiet $Uri/SapBits/51052325_part3.rar
-  /usr/bin/wget --quiet $Uri/SapBits/51052325_part4.rar
-  /usr/bin/wget --quiet "https://raw.githubusercontent.com/wkdang/SAPonAzure/master/hdbinst1.cfg"
-  echo "hana 2.0 download end" >> /tmp/parameter.txt
+#if [ "$6" == "2.0" ]; then
+#  cd /hana/data/sapbits
+#  echo "hana 2.0 download start" >> /tmp/parameter.txt
+#  /usr/bin/wget --quiet $Uri/SapBits/md5sums
+#  /usr/bin/wget --quiet $Uri/SapBits/51052325_part1.exe
+#  /usr/bin/wget --quiet $Uri/SapBits/51052325_part2.rar
+#  /usr/bin/wget --quiet $Uri/SapBits/51052325_part3.rar
+#  /usr/bin/wget --quiet $Uri/SapBits/51052325_part4.rar
+#  /usr/bin/wget --quiet "https://raw.githubusercontent.com/wkdang/SAPonAzure/master/hdbinst1.cfg"
+#  echo "hana 2.0 download end" >> /tmp/parameter.txt
 
-  date >> /tmp/testdate
-  cd /hana/data/sapbits
+#  date >> /tmp/testdate
+#  cd /hana/data/sapbits
+#
+#  echo "hana 2.0 unrar start" >> /tmp/parameter.txt
+#  cd /hana/data/sapbits
+#  unrar x 51052325_part1.exe
+#  echo "hana 2.0 unrar end" >> /tmp/parameter.txt
+#
+#  echo "hana 2.0 prepare start" >> /tmp/parameter.txt
+#  cd /hana/data/sapbits
+#
+#  cd /hana/data/sapbits
+#  myhost=`hostname`
+#  sedcmd="s/REPLACE-WITH-HOSTNAME/$myhost/g"
+#  sedcmd2="s/\/hana\/shared\/sapbits\/51052325/\/hana\/data\/sapbits\/51052325/g"
+#  sedcmd3="s/root_user=root/root_user=$HANAUSR/g"
+#  sedcmd4="s/root_password=AweS0me@PW/root_password=$HANAPWD/g"
+#  sedcmd5="s/sid=H10/sid=$HANASID/g"
+#  sedcmd6="s/number=00/number=$HANANUMBER/g"
+#  #cat hdbinst1.cfg | sed $sedcmd | sed $sedcmd2 | sed $sedcmd3 | sed $sedcmd4 | sed $sedcmd5 | sed $sedcmd6 > hdbinst-local.cfg
+#  cp -f /hana/data/sapbits/hdbinst1.cfg /hana/data/sapbits/hdbinst-local.cfg
+#  sed -i -e $sedcmd -e $sedcmd2 -e $sedcmd3 -e $sedcmd4 -e $sedcmd5 -e $sedcmd6 /hana/data/sapbits/hdbinst-local.cfg
+#  echo "hana 2.0 prepare end" >> /tmp/parameter.txt
+#
+#  echo "install hana 2.0 start" >> /tmp/parameter.txt
+#  cd /hana/data/sapbits/51052325/DATA_UNITS/HDB_LCM_LINUX_X86_64
+#  /hana/data/sapbits/51052325/DATA_UNITS/HDB_LCM_LINUX_X86_64/hdblcm -b --configfile /hana/data/sapbits/hdbinst-local.cfg
+#  echo "Log file written to '/var/tmp/hdb_H10_hdblcm_install_xxx/hdblcm.log' on host 'saphanaarm'." >> /tmp/parameter.txt
+#  echo "install hana 2.0 end" >> /tmp/parameter.txt
+#
+#else
+#  cd /hana/data/sapbits
+#echo "hana 1.0 download start" >> /tmp/parameter.txt
+#/usr/bin/wget --quiet $Uri/SapBits/md5sums
+#/usr/bin/wget --quiet $Uri/SapBits/51052383_part1.exe
+#/usr/bin/wget --quiet $Uri/SapBits/51052383_part2.rar
+#/usr/bin/wget --quiet $Uri/SapBits/51052383_part3.rar
+#/usr/bin/wget --quiet "https://raw.githubusercontent.com/wkdang/SAPonAzure/master/hdbinst.cfg"
+#echo "hana 1.0 download end" >> /tmp/parameter.txt
+#
+#date >> /tmp/testdate
+#cd /hana/data/sapbits
+#
+#echo "hana 1.0 unrar start" >> /tmp/parameter.txt
+#cd /hana/data/sapbits
+#unrar x 51052383_part1.exe
+#echo "hana 1.0 unrar end" >> /tmp/parameter.txt
+#
+#echo "hana 1.0 prepare start" >> /tmp/parameter.txt
+#cd /hana/data/sapbits
+#
+#cd /hana/data/sapbits
+#myhost=`hostname`
+#sedcmd="s/REPLACE-WITH-HOSTNAME/$myhost/g"
+#sedcmd2="s/\/hana\/shared\/sapbits\/51052325/\/hana\/data\/sapbits\/51052383/g"
+#sedcmd3="s/root_user=root/root_user=$HANAUSR/g"
+#sedcmd4="s/password=AweS0me@PW/password=$HANAPWD/g"
+#sedcmd5="s/sid=H10/sid=$HANASID/g"
+#sedcmd6="s/number=00/number=$HANANUMBER/g"
+##cat hdbinst.cfg | sed $sedcmd | sed $sedcmd2 | sed $sedcmd3 | sed $sedcmd4 | sed $sedcmd5 | sed $sedcmd6 > hdbinst-local.cfg
+#cp -f /hana/data/sapbits/hdbinst.cfg /hana/data/sapbits/hdbinst-local.cfg
+#sed -i -e $sedcmd -e $sedcmd2 -e $sedcmd3 -e $sedcmd4 -e $sedcmd5 -e $sedcmd6 /hana/data/sapbits/hdbinst-local.cfg
+#echo "hana 1.0 prepare end" >> /tmp/parameter.txt
+#
+#echo "install hana 1.0 start" >> /tmp/parameter.txt
+#cd /hana/data/sapbits/51052383/DATA_UNITS/HDB_LCM_LINUX_X86_64
+#/hana/data/sapbits/51052383/DATA_UNITS/HDB_LCM_LINUX_X86_64/hdblcm -b --configfile /hana/data/sapbits/hdbinst-local.cfg
+#echo "Log file written to '/var/tmp/hdb_H10_hdblcm_install_xxx/hdblcm.log' on host 'saphanaarm'." >> /tmp/parameter.txt
+#echo "install hana 1.0 end" >> /tmp/parameter.txt
+#
+#
+#fi
 
-  echo "hana 2.0 unrar start" >> /tmp/parameter.txt
-  cd /hana/data/sapbits
-  unrar x 51052325_part1.exe
-  echo "hana 2.0 unrar end" >> /tmp/parameter.txt
-
-  echo "hana 2.0 prepare start" >> /tmp/parameter.txt
-  cd /hana/data/sapbits
-
-  cd /hana/data/sapbits
-  myhost=`hostname`
-  sedcmd="s/REPLACE-WITH-HOSTNAME/$myhost/g"
-  sedcmd2="s/\/hana\/shared\/sapbits\/51052325/\/hana\/data\/sapbits\/51052325/g"
-  sedcmd3="s/root_user=root/root_user=$HANAUSR/g"
-  sedcmd4="s/root_password=AweS0me@PW/root_password=$HANAPWD/g"
-  sedcmd5="s/sid=H10/sid=$HANASID/g"
-  sedcmd6="s/number=00/number=$HANANUMBER/g"
-  #cat hdbinst1.cfg | sed $sedcmd | sed $sedcmd2 | sed $sedcmd3 | sed $sedcmd4 | sed $sedcmd5 | sed $sedcmd6 > hdbinst-local.cfg
-  cp -f /hana/data/sapbits/hdbinst1.cfg /hana/data/sapbits/hdbinst-local.cfg
-  sed -i -e $sedcmd -e $sedcmd2 -e $sedcmd3 -e $sedcmd4 -e $sedcmd5 -e $sedcmd6 /hana/data/sapbits/hdbinst-local.cfg
-  echo "hana 2.0 prepare end" >> /tmp/parameter.txt
-
-  echo "install hana 2.0 start" >> /tmp/parameter.txt
-  cd /hana/data/sapbits/51052325/DATA_UNITS/HDB_LCM_LINUX_X86_64
-  /hana/data/sapbits/51052325/DATA_UNITS/HDB_LCM_LINUX_X86_64/hdblcm -b --configfile /hana/data/sapbits/hdbinst-local.cfg
-  echo "Log file written to '/var/tmp/hdb_H10_hdblcm_install_xxx/hdblcm.log' on host 'saphanaarm'." >> /tmp/parameter.txt
-  echo "install hana 2.0 end" >> /tmp/parameter.txt
-
-else
-  cd /hana/data/sapbits
-echo "hana 1.0 download start" >> /tmp/parameter.txt
-/usr/bin/wget --quiet $Uri/SapBits/md5sums
-/usr/bin/wget --quiet $Uri/SapBits/51052383_part1.exe
-/usr/bin/wget --quiet $Uri/SapBits/51052383_part2.rar
-/usr/bin/wget --quiet $Uri/SapBits/51052383_part3.rar
-/usr/bin/wget --quiet "https://raw.githubusercontent.com/wkdang/SAPonAzure/master/hdbinst.cfg"
-echo "hana 1.0 download end" >> /tmp/parameter.txt
-
-date >> /tmp/testdate
-cd /hana/data/sapbits
-
-echo "hana 1.0 unrar start" >> /tmp/parameter.txt
-cd /hana/data/sapbits
-unrar x 51052383_part1.exe
-echo "hana 1.0 unrar end" >> /tmp/parameter.txt
-
-echo "hana 1.0 prepare start" >> /tmp/parameter.txt
-cd /hana/data/sapbits
-
-cd /hana/data/sapbits
-myhost=`hostname`
-sedcmd="s/REPLACE-WITH-HOSTNAME/$myhost/g"
-sedcmd2="s/\/hana\/shared\/sapbits\/51052325/\/hana\/data\/sapbits\/51052383/g"
-sedcmd3="s/root_user=root/root_user=$HANAUSR/g"
-sedcmd4="s/password=AweS0me@PW/password=$HANAPWD/g"
-sedcmd5="s/sid=H10/sid=$HANASID/g"
-sedcmd6="s/number=00/number=$HANANUMBER/g"
-#cat hdbinst.cfg | sed $sedcmd | sed $sedcmd2 | sed $sedcmd3 | sed $sedcmd4 | sed $sedcmd5 | sed $sedcmd6 > hdbinst-local.cfg
-cp -f /hana/data/sapbits/hdbinst.cfg /hana/data/sapbits/hdbinst-local.cfg
-sed -i -e $sedcmd -e $sedcmd2 -e $sedcmd3 -e $sedcmd4 -e $sedcmd5 -e $sedcmd6 /hana/data/sapbits/hdbinst-local.cfg
-echo "hana 1.0 prepare end" >> /tmp/parameter.txt
-
-echo "install hana 1.0 start" >> /tmp/parameter.txt
-cd /hana/data/sapbits/51052383/DATA_UNITS/HDB_LCM_LINUX_X86_64
-/hana/data/sapbits/51052383/DATA_UNITS/HDB_LCM_LINUX_X86_64/hdblcm -b --configfile /hana/data/sapbits/hdbinst-local.cfg
-echo "Log file written to '/var/tmp/hdb_H10_hdblcm_install_xxx/hdblcm.log' on host 'saphanaarm'." >> /tmp/parameter.txt
-echo "install hana 1.0 end" >> /tmp/parameter.txt
-
-
-fi
 shutdown -r 1
