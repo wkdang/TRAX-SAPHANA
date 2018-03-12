@@ -216,6 +216,7 @@
     "resources": [
 
 	{ 
+	   "condition": "[equals(parameters('ExistingNetworkResourceGroup'), 'no')]",
        "apiVersion": "2015-06-15", 
        "type": "Microsoft.Network/networkSecurityGroups", 
        "name": "[variables('networkSecurityGroupName')]", 
