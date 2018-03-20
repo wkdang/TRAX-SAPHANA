@@ -111,19 +111,34 @@ cp -f /etc/waagent.conf.new /etc/waagent.conf
 number="$(lsscsi [*] 0 0 4| cut -c2)"
 
 echo "logicalvols start" >> /tmp/parameter.txt
-  hanavg1lun="$(lsscsi $number 0 0 3 | grep -o '.\{9\}$')"
-  hanavg2lun="$(lsscsi $number 0 0 4 | grep -o '.\{9\}$')"
-  pvcreate $hanavg1lun $hanavg2lun
-  vgcreate hanavg $hanavg1lun $hanavg2lun
-  lvcreate -l 80%FREE -n datalv hanavg
-  lvcreate -l 20%VG -n loglv hanavg
-  mkfs.xfs /dev/hanavg/datalv
-  mkfs.xfs /dev/hanavg/loglv
+# Stripe data disk
+  hanadatavg1lun="$(lsscsi $number 0 0 3 | grep -o '.\{9\}$')"
+  hanadatavg2lun="$(lsscsi $number 0 0 4 | grep -o '.\{9\}$')"
+  hanadatavg3lun="$(lsscsi $number 0 0 4 | grep -o '.\{9\}$')"
+  hanadatavg4lun="$(lsscsi $number 0 0 4 | grep -o '.\{9\}$')"
+
+  pvcreate $hanadatavg1lun $hanadatavg2lun $hanadatavg3lun $hanadatavg4lun
+  vgcreate hanadatavg $hanadatavg1lun $hanadatavg2lun $hanadatavg3lun $hanadatavg4lun
+  lvcreate -i 4 -l 100%FREE -n datalv hanadatavg
+  mkfs.xfs /dev/hanadatavg/datalv
+  
+
+# Stripe log disk
+  hanalogvg1lun="$(lsscsi $number 0 0 3 | grep -o '.\{9\}$')"
+  hanalogvg2lun="$(lsscsi $number 0 0 4 | grep -o '.\{9\}$')"
+  hanalogvg3lun="$(lsscsi $number 0 0 4 | grep -o '.\{9\}$')"
+  
+  pvcreate $hanalogvg1lun $hanalogvg2lun $hanalogvg3lun 
+  vgcreate hanalogvg $hanalogvg1lun $hanalogvg2lun $hanalogvg3lun
+  lvcreate -i 3 -l 100%FREE -n loglv hanalogvg
+    
+  mkfs.xfs /dev/hanalogvg/loglv
+  
 echo "logicalvols end" >> /tmp/parameter.txt
 
 
 echo "logicalvols2 start" >> /tmp/parameter.txt
-  sharedvglun="$(lsscsi $number 0 0 0 | grep -o '.\{9\}$')"
+  sharedvglun="$(lsscsi $number 0 0 0 | greph -o '.\{9\}$')"
   usrsapvglun="$(lsscsi $number 0 0 1 | grep -o '.\{9\}$')"
   backupvglun="$(lsscsi $number 0 0 2 | grep -o '.\{9\}$')"
   pvcreate $backupvglun $sharedvglun $usrsapvglun
@@ -144,8 +159,8 @@ echo "mounthanashared start" >> /tmp/parameter.txt
 mount -t xfs /dev/sharedvg/sharedlv /hana/shared
 mount -t xfs /dev/backupvg/backuplv /hana/backup 
 mount -t xfs /dev/usrsapvg/usrsaplv /usr/sap
-mount -t xfs /dev/hanavg/datalv /hana/data
-mount -t xfs /dev/hanavg/loglv /hana/log 
+mount -t xfs /dev/hanadatavg/datalv /hana/data
+mount -t xfs /dev/hanalogvg/loglv /hana/log 
 #mount -t cifs //saphanakit.file.core.windows.net/sapinstall/HANA1SP12/SAP_HANA_1.0_DSP_122.13 /hana/data/SAPCDlocal/ -o vers=3.0,username=saphanakit,password=UVLxDAZmw937RVDNQBF+OetwlLYwitsbQPHH2tnEiTut/y+hRgx0YkBzUtEGI99mhDsT/KxgSxJ/h6HUu6JHoQ==,dir_mode=0777,file_mode=0777,sec=ntlmssp
 
 mkdir -p /hana/shared/SAPCD
@@ -153,8 +168,8 @@ ln -s /hana/shared/SAPCD /SAPCD
 echo "mounthanashared end" >> /tmp/parameter.txt
 
 echo "write to fstab start" >> /tmp/parameter.txt
-echo "/dev/mapper/hanavg-datalv /hana/data xfs defaults 0 0" >> /etc/fstab
-echo "/dev/mapper/hanavg-loglv /hana/log xfs defaults 0 0" >> /etc/fstab
+echo "/dev/mapper/hanadatavg-datalv /hana/data xfs defaults 0 0" >> /etc/fstab
+echo "/dev/mapper/hanalogvg-loglv /hana/log xfs defaults 0 0" >> /etc/fstab
 echo "/dev/mapper/sharedvg-sharedlv /hana/shared xfs defaults 0 0" >> /etc/fstab
 echo "/dev/mapper/backupvg-backuplv /hana/backup xfs defaults 0 0" >> /etc/fstab
 echo "/dev/mapper/usrsapvg-usrsaplv /usr/sap xfs defaults 0 0" >> /etc/fstab
