@@ -1,5 +1,5 @@
 #!/bin/bash
-#set -e
+set -e
 
 Uri=$1
 HANAUSR=$2
@@ -109,30 +109,31 @@ cp -f /etc/waagent.conf.new /etc/waagent.conf
 
 
 number="$(lsscsi [*] 0 0 4| cut -c2)"
+echo $number >> /tmp/parameter.txt
 
 echo "logicalvols start" >> /tmp/parameter.txt
 # Stripe data disk
-#  hanadatavg1lun="$(lsscsi $number 0 0 3 | grep -o '.\{9\}$')"
-#  hanadatavg2lun="$(lsscsi $number 0 0 4 | grep -o '.\{9\}$')"
-#  hanadatavg3lun="$(lsscsi $number 0 0 5 | grep -o '.\{9\}$')"
-#  hanadatavg4lun="$(lsscsi $number 0 0 6 | grep -o '.\{9\}$')"
+  hanadatavg1lun="$(lsscsi $number 0 0 3 | grep -o '.\{9\}$')"
+  hanadatavg2lun="$(lsscsi $number 0 0 4 | grep -o '.\{9\}$')"
+  hanadatavg3lun="$(lsscsi $number 0 0 5 | grep -o '.\{9\}$')"
+  hanadatavg4lun="$(lsscsi $number 0 0 6 | grep -o '.\{9\}$')"
 
-#  pvcreate $hanadatavg1lun $hanadatavg2lun $hanadatavg3lun $hanadatavg4lun
-#  vgcreate hanadatavg $hanadatavg1lun $hanadatavg2lun $hanadatavg3lun $hanadatavg4lun
-#  lvcreate -i 4 -l 100%FREE -n datalv hanadatavg
-#  mkfs.xfs /dev/hanadatavg/datalv
+  pvcreate $hanadatavg1lun $hanadatavg2lun $hanadatavg3lun $hanadatavg4lun
+  vgcreate hanadatavg $hanadatavg1lun $hanadatavg2lun $hanadatavg3lun $hanadatavg4lun
+  lvcreate -i 4 -l 100%FREE -n datalv hanadatavg
+  mkfs.xfs /dev/hanadatavg/datalv
   
 
 # Stripe log disk
-#  hanalogvg1lun="$(lsscsi $number 0 0 7 | grep -o '.\{9\}$')"
-#  hanalogvg2lun="$(lsscsi $number 0 0 8 | grep -o '.\{9\}$')"
-#  hanalogvg3lun="$(lsscsi $number 0 0 9 | grep -o '.\{9\}$')"
+  hanalogvg1lun="$(lsscsi $number 0 0 7 | grep -o '.\{9\}$')"
+  hanalogvg2lun="$(lsscsi $number 0 0 8 | grep -o '.\{9\}$')"
+  hanalogvg3lun="$(lsscsi $number 0 0 9 | grep -o '.\{9\}$')"
   
-#  pvcreate $hanalogvg1lun $hanalogvg2lun $hanalogvg3lun 
-#  vgcreate hanalogvg $hanalogvg1lun $hanalogvg2lun $hanalogvg3lun
-#  lvcreate -i 3 -l 100%FREE -n loglv hanalogvg
+  pvcreate $hanalogvg1lun $hanalogvg2lun $hanalogvg3lun 
+  vgcreate hanalogvg $hanalogvg1lun $hanalogvg2lun $hanalogvg3lun
+  lvcreate -i 3 -l 100%FREE -n loglv hanalogvg
     
-#  mkfs.xfs /dev/hanalogvg/loglv
+  mkfs.xfs /dev/hanalogvg/loglv
   
 echo "logicalvols end" >> /tmp/parameter.txt
 
@@ -159,8 +160,8 @@ echo "mounthanashared start" >> /tmp/parameter.txt
 mount -t xfs /dev/sharedvg/sharedlv /hana/shared
 mount -t xfs /dev/backupvg/backuplv /hana/backup 
 mount -t xfs /dev/usrsapvg/usrsaplv /usr/sap
-#mount -t xfs /dev/hanadatavg/datalv /hana/data
-#mount -t xfs /dev/hanalogvg/loglv /hana/log 
+mount -t xfs /dev/hanadatavg/datalv /hana/data
+mount -t xfs /dev/hanalogvg/loglv /hana/log 
 #mount -t cifs //saphanakit.file.core.windows.net/sapinstall/HANA1SP12/SAP_HANA_1.0_DSP_122.13 /hana/data/SAPCDlocal/ -o vers=3.0,username=saphanakit,password=UVLxDAZmw937RVDNQBF+OetwlLYwitsbQPHH2tnEiTut/y+hRgx0YkBzUtEGI99mhDsT/KxgSxJ/h6HUu6JHoQ==,dir_mode=0777,file_mode=0777,sec=ntlmssp
 
 mkdir -p /hana/shared/SAPCD
@@ -264,4 +265,4 @@ echo "write to fstab end" >> /tmp/parameter.txt
 #
 #fi
 
-shutdown -r 1
+#shutdown -r 1
