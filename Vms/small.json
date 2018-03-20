@@ -134,7 +134,7 @@
         "OperatingSystemSpec":{
             "imagePublisher":"[if (contains(parameters('OperatingSystem'),'SLES'),'SUSE','RedHat')]",
             "imageOffer":"[if (contains(parameters('OperatingSystem'),'SLES'),'SLES-SAP','RHEL-SAP-HANA')]",
-            "sku":"[if (contains(parameters('OperatingSystem'),'12 SP2'),'12-SP2','7.2')]"
+            "sku":"[if (contains(parameters('OperatingSystem'),'12 SP3'),'12-SP3	','7.2')]"
         },
         "diskConfig": "[variables(concat('diskConfig_', parameters('vmSize')))]",
         "diskConfig_Standard_E16s_v3": {
@@ -145,11 +145,17 @@
             "data2": 127
         },
         "diskConfig_Standard_E32s_v3": {
-            "shared": 511,
-            "sap": 63,
+            "shared": 254,
+            "sap": 127,
             "backup": 511,
-            "data1": 511,
-            "data2": 511
+            "data1": 127,
+            "data2": 127,
+			"data3": 127,
+            "data4": 127,
+			"log1": 127,
+            "log2": 127,
+			"log3": 127
+			
         },
         "diskConfig_Standard_E64s_v3": {
             "shared": 511,
@@ -409,6 +415,42 @@
               "createOption": "attach",
               "managedDisk": {
                 "id": "[resourceId('Microsoft.Compute/disks/', concat(parameters('vmName'),'-data2'))]"
+              }
+            },
+            {
+              "lun": 5,
+              "createOption": "attach",
+              "managedDisk": {
+                "id": "[resourceId('Microsoft.Compute/disks/', concat(parameters('vmName'),'-data3'))]"
+              }
+            },
+            {
+              "lun": 6,
+              "createOption": "attach",
+              "managedDisk": {
+                "id": "[resourceId('Microsoft.Compute/disks/', concat(parameters('vmName'),'-data4'))]"
+              }
+            },
+            {
+              "lun": 7,
+              "createOption": "attach",
+              "managedDisk": {
+                "id": "[resourceId('Microsoft.Compute/disks/', concat(parameters('vmName'),'-log1'))]"
+              }
+            },
+            {
+              "lun": 8,
+              "createOption": "attach",
+              "managedDisk": {
+                "id": "[resourceId('Microsoft.Compute/disks/', concat(parameters('vmName'),'-log2'))]"
+              }
+            },
+			
+            {
+              "lun": 9,
+              "createOption": "attach",
+              "managedDisk": {
+                "id": "[resourceId('Microsoft.Compute/disks/', concat(parameters('vmName'),'-log3'))]"
               }
             }
           ]
