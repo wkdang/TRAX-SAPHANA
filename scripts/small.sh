@@ -114,8 +114,8 @@ echo "logicalvols start" >> /tmp/parameter.txt
 # Stripe data disk
   hanadatavg1lun="$(lsscsi $number 0 0 3 | grep -o '.\{9\}$')"
   hanadatavg2lun="$(lsscsi $number 0 0 4 | grep -o '.\{9\}$')"
-  hanadatavg3lun="$(lsscsi $number 0 0 4 | grep -o '.\{9\}$')"
-  hanadatavg4lun="$(lsscsi $number 0 0 4 | grep -o '.\{9\}$')"
+  hanadatavg3lun="$(lsscsi $number 0 0 5 | grep -o '.\{9\}$')"
+  hanadatavg4lun="$(lsscsi $number 0 0 6 | grep -o '.\{9\}$')"
 
   pvcreate $hanadatavg1lun $hanadatavg2lun $hanadatavg3lun $hanadatavg4lun
   vgcreate hanadatavg $hanadatavg1lun $hanadatavg2lun $hanadatavg3lun $hanadatavg4lun
@@ -124,9 +124,9 @@ echo "logicalvols start" >> /tmp/parameter.txt
   
 
 # Stripe log disk
-  hanalogvg1lun="$(lsscsi $number 0 0 3 | grep -o '.\{9\}$')"
-  hanalogvg2lun="$(lsscsi $number 0 0 4 | grep -o '.\{9\}$')"
-  hanalogvg3lun="$(lsscsi $number 0 0 4 | grep -o '.\{9\}$')"
+  hanalogvg1lun="$(lsscsi $number 0 0 7 | grep -o '.\{9\}$')"
+  hanalogvg2lun="$(lsscsi $number 0 0 8 | grep -o '.\{9\}$')"
+  hanalogvg3lun="$(lsscsi $number 0 0 9 | grep -o '.\{9\}$')"
   
   pvcreate $hanalogvg1lun $hanalogvg2lun $hanalogvg3lun 
   vgcreate hanalogvg $hanalogvg1lun $hanalogvg2lun $hanalogvg3lun
