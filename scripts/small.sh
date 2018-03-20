@@ -139,7 +139,7 @@ echo "logicalvols end" >> /tmp/parameter.txt
 
 
 echo "logicalvols2 start" >> /tmp/parameter.txt
-  sharedvglun="$(lsscsi $number 0 0 0 | greph -o '.\{9\}$')"
+  sharedvglun="$(lsscsi $number 0 0 0 | grep -o '.\{9\}$')"
   usrsapvglun="$(lsscsi $number 0 0 1 | grep -o '.\{9\}$')"
   backupvglun="$(lsscsi $number 0 0 2 | grep -o '.\{9\}$')"
   pvcreate $backupvglun $sharedvglun $usrsapvglun
@@ -265,4 +265,4 @@ echo "write to fstab end" >> /tmp/parameter.txt
 #
 #fi
 
-#shutdown -r 1
+#shutdown -r 1 now
