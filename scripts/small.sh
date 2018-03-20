@@ -108,7 +108,7 @@ cp -f /etc/waagent.conf.new /etc/waagent.conf
 #sed -i -e "s/ResourceDisk.EnableSwap=n/ResourceDisk.EnableSwap=y/g" -e "s/ResourceDisk.SwapSizeMB=0/ResourceDisk.SwapSizeMB=163840/g" /etc/waagent.conf
 
 
-number="$(lsscsi [*] 0 0 4| cut -c2)"
+number="$(lsscsi [*] 0 0 9| cut -c2)"
 echo $number >> /tmp/parameter.txt
 
 echo "logicalvols start" >> /tmp/parameter.txt
@@ -169,8 +169,8 @@ ln -s /hana/shared/SAPCD /SAPCD
 echo "mounthanashared end" >> /tmp/parameter.txt
 
 echo "write to fstab start" >> /tmp/parameter.txt
-#echo "/dev/mapper/hanadatavg-datalv /hana/data xfs defaults 0 0" >> /etc/fstab
-#echo "/dev/mapper/hanalogvg-loglv /hana/log xfs defaults 0 0" >> /etc/fstab
+echo "/dev/mapper/hanadatavg-datalv /hana/data xfs defaults 0 0" >> /etc/fstab
+echo "/dev/mapper/hanalogvg-loglv /hana/log xfs defaults 0 0" >> /etc/fstab
 echo "/dev/mapper/sharedvg-sharedlv /hana/shared xfs defaults 0 0" >> /etc/fstab
 echo "/dev/mapper/backupvg-backuplv /hana/backup xfs defaults 0 0" >> /etc/fstab
 echo "/dev/mapper/usrsapvg-usrsaplv /usr/sap xfs defaults 0 0" >> /etc/fstab
