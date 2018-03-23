@@ -1,6 +1,6 @@
 
-# SAP HANA ARM Installation
-This ARM template is used to install SAP HANA on a single VM running SUSE SLES 12 SP 2 or RedHat 7.2. It uses the Azure SKU for SAP. **We will be adding additional SKUs and Linux flavors in future Versions.** The template takes advantage of [Custom Script Extensions](https://github.com/Azure/azure-linux-extensions/tree/master/CustomScript) for the installation and configuration of the machine.
+# TRAX - Provisionnement des serveurs
+This ARM template is used to install SAP HANA on a single VM running SUSE SLES 12 SP 3 for SAP. **We will be adding additional SKUs and Linux flavors in future Versions.** The template takes advantage of [Custom Script Extensions](https://github.com/Azure/azure-linux-extensions/tree/master/CustomScript) for the installation and configuration of the machine.
 
 [![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fwkdang%2FTRAX-SAPHANA%2Fmaster%2Fazuredeploy.json)
 ## Machine Info
@@ -10,12 +10,7 @@ Machine Size | RAM | Data and Log Disks | /hana/shared | /root | /usr/sap | hana
 ------------ | --- | ------------------ | ------------ | ----- | -------- | -----------
 E16 | 128 GB | 2 x P20 | 1 x S20 | 1 x S6 | 1 x S6 | 1 x S15
 E32 | 256 GB | 2 x P20 | 1 x S20 | 1 x S6 | 1 x S6 | 1 x S20
-E64 | 432 GB | 2 x P20 | 1 x S20 | 1 x P6 | 1 x S6 | 1 x S30
-GS5 | 448 GB | 2 x P20 | 1 x S20 | 1 x P6 | 1 x S6 | 1 x S30
-M64s | 1TB | 2 x P30 | 1 x S30 | 1 x P6 | 1 x S6 | 2 x S30
-M64ms | 1.7TB | 3 x P30 | 1 x S30 | 1 x P6 | 1 x S6 | 2 x S40
-M128S | 2TB | 3 x P30 | 1 x S30 | 1 x P6 | 1 x S6 | 2 x S40
-M128ms | 3.8TB | 5 x P30 | 1 x S30 | 1 x P6 | 1 x S6 | 5 x S30
+
 
 ## Installation Media
 This template allows users to implement SAP HANA 1.0 or SAP HANA 2.0
@@ -62,7 +57,7 @@ Additionally if you plan on installing the HANA Jumpbox, you should create a fol
 ## Deploy the Solution
 ### Deploy from the Portal
 
-To deploy from the portal using a graphic interface you can use the [![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzureCAT-GSI%2FSAP-HANA-ARM%2Fmaster%2Fazuredeploy.json) button to bring up the template in your subscription and fill out the parameters.
+To deploy from the portal using a graphic interface you can use the [![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fwkdang%2FTRAX-SAPHANA%2Fmaster%2Fazuredeploy.json) button to bring up the template in your subscription and fill out the parameters.
 
 ### Deploy from Powershell
 
