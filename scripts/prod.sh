@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 
 Uri=$1
 HANAUSR=$2
